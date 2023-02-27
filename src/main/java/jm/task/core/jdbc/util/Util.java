@@ -1,6 +1,8 @@
 package jm.task.core.jdbc.util;
 
 
+import com.mysql.cj.jdbc.ConnectionImpl;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -15,13 +17,16 @@ public class Util {
 
     public Connection getConnection() {
         Connection connection = null;
+
         try {
             Class.forName(DB_DRIVER);
             connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+            connection.setAutoCommit(false);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         return connection;
     }
+
 
 }

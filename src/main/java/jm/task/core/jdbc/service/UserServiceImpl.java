@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceImpl extends UserDaoJDBCImpl implements UserService {
-    Connection connection = getConnection();
-    UserDaoJDBCImpl user = new UserDaoJDBCImpl();
+
+    UserDao user = new UserDaoJDBCImpl();
 
     public void createUsersTable() {
         user.createUsersTable();
