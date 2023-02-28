@@ -7,7 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDaoJDBCImpl extends Util implements UserDao {
+import static jm.task.core.jdbc.util.Util.getConnection;
+
+public class UserDaoJDBCImpl  implements UserDao {
     private Connection connection = getConnection();
 
     public UserDaoJDBCImpl() {
@@ -45,15 +47,15 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
             }
+
         }
     }
+
 
     public void removeUserById(long id) {
         try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM USER WHERE ID=?")) {
@@ -62,13 +64,12 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
+
         }
     }
 
